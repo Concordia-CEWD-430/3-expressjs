@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Concordia-CEWD-430/3-expressjs/issues"
   },
-  "homepage": "https://github.com/Concordia-CEWD-430/3-expressjs#readme"
+  "homepage": "https://github.com/Concordia-CEWD-430/3-expressjs#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
