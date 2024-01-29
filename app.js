@@ -10,6 +10,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   console.log("another express js middleware");
+  res.send("<h1>Hello</h1>");
 });
 
 const server = http.createServer(app);
