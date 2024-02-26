@@ -8,7 +8,10 @@ const router = express.Router();
 const books = [];
 
 router.get("/add-book", (req, res, next) => {
-  res.render("add-book", { pageTitle: "Add Book" });
+  res.render("add-book", {
+    pageTitle: "Add Book",
+    path: "/admin/add-book",
+  });
 });
 
 router.post("/add-book", (req, res, next) => {
