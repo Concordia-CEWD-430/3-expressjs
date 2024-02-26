@@ -8,7 +8,7 @@ const router = express.Router();
 const books = [];
 
 router.get("/add-book", (req, res, next) => {
-  res.sendFile(path.join(rootDir, "views", "add-book.html"));
+  res.render("add-book", { pageTitle: "Add Book" });
 });
 
 router.post("/add-book", (req, res, next) => {
