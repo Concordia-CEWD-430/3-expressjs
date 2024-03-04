@@ -22,6 +22,7 @@ module.exports = class Book {
   }
 
   save() {
+    this.id = Math.random().toString();
     getBooksFromFile((books) => {
       books.push(this);
       fs.writeFile(p, JSON.stringify(books), (err) => {
