@@ -1,10 +1,18 @@
+const path = require("path");
+
 const express = require("express");
 
-const booksController = require("../controllers/books");
+const adminController = require("../controllers/admin");
 
 const router = express.Router();
 
-router.get("/add-book", booksController.getAddBook);
-router.post("/add-book", booksController.postAddBook);
+// /admin/add-book => GET
+router.get("/add-book", adminController.getAddBook);
+
+// /admin/books => GET
+router.get("/books", adminController.getBooks);
+
+// /admin/add-book => POST
+router.post("/add-book", adminController.postAddBook);
 
 module.exports = router;
