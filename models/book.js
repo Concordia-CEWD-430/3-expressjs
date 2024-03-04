@@ -36,4 +36,10 @@ module.exports = class Book {
   static fetchAll(cb) {
     return getBooksFromFile(cb);
   }
+
+  static findById(id, cb) {
+    getBooksFromFile((books) => {
+      return cb(books.find((b) => b.id === id));
+    });
+  }
 };
