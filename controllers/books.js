@@ -1,4 +1,4 @@
-const books = [];
+const Book = require("../models/book");
 
 exports.getAddBook = (req, res, next) => {
   res.render("add-book", {
@@ -8,16 +8,16 @@ exports.getAddBook = (req, res, next) => {
 };
 
 exports.postAddBook = (req, res, next) => {
-  books.push({ title: req.body.title });
+  const book = new Book(req.body.title);
+  book.save();
   res.redirect("/");
 };
 
 exports.getBooks = (req, res, next) => {
+  const books = Book.fetchAll();
   res.render("shop", {
     path: "/",
     books: books,
     pageTitle: "Shop",
   });
 };
-
-exports.books = books;
