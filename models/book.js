@@ -23,13 +23,13 @@ module.exports = class Book {
     });
   }
 
-  static fetchAll() {
+  static fetchAll(cb) {
     const p = path.join(rootDir, "data", "books.json");
     fs.readFile(p, (err, fileContent) => {
       if (err) {
-        return [];
+        return cb([]);
       }
-      return JSON.parse(fileContent);
+      return cb(JSON.parse(fileContent));
     });
   }
 };
