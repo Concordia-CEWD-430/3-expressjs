@@ -10,6 +10,12 @@ exports.getBooks = (req, res, next) => {
   });
 };
 
+exports.getBook = (req, res, next) => {
+  const productId = req.params.id;
+  console.log(productId);
+  res.redirect("/");
+};
+
 exports.getIndex = (req, res, next) => {
   Book.fetchAll((books) => {
     res.render("shop/index", {
