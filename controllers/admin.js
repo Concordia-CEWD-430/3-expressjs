@@ -2,6 +2,7 @@ const Book = require("../models/book");
 
 exports.getAddBook = (req, res, next) => {
   res.render("admin/edit-book", {
+    editing: false,
     pageTitle: "Add Book",
     path: "/admin/add-book",
   });
@@ -18,11 +19,17 @@ exports.postAddBook = (req, res, next) => {
 };
 
 exports.getEditBook = (req, res, next) => {
-  console.log(req.query);
-  res.render("admin/edit-book", {
-    editing: true,
-    pageTitle: "Edit Book",
-    path: "/admin/edit-book",
+  const bookId = req.params.bookId;
+  Book.findById(bookId, (book) => {
+    if (!book) {
+      return res.redirect("/");
+    }
+    res.render("admin/edit-book", {
+      book,
+      editing: true,
+      pageTitle: "Edit Book",
+      path: "/admin/edit-book",
+    });
   });
 };
 
