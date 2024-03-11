@@ -1,12 +1,10 @@
 const Book = require("../models/book");
 
 exports.getAddBook = (req, res, next) => {
-  res.render("admin/add-book", {
+  res.render("admin/edit-book", {
     pageTitle: "Add Book",
     path: "/admin/add-book",
-    formsCSS: true,
-    bookCSS: true,
-    activeAddBook: true,
+    editing: false,
   });
 };
 
@@ -15,9 +13,39 @@ exports.postAddBook = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  const book = new Book(title, imageUrl, description, price);
+  const book = new Book(null, title, imageUrl, description, price);
   book.save();
   res.redirect("/");
+};
+
+exports.getEditBook = (req, res, next) => {
+  const editMode = req.query.edit;
+  if (!editMode) {
+    return res.redirect("/");
+  }
+  const prodId = req.params.bookId;
+  Book.findById(prodId, (book) => {
+    if (!book) {
+      return res.redirect("/");
+    }
+    res.render("admin/edit-book", {
+      pageTitle: "Edit Book",
+      path: "/admin/edit-book",
+      editing: editMode,
+      book: book,
+    });
+  });
+};
+
+exports.postEditBook = (req, res, next) => {
+  const prodId = req.body.bookId;
+  const updatedTitle = req.body.title;
+  const updatedPrice = req.body.price;
+  const updatedImageUrl = req.body.imageUrl;
+  const updatedDesc = req.body.description;
+  const updatedBook = new Book(prodId, updatedTitle, updatedImageUrl, updatedDesc, updatedPrice);
+  updatedBook.save();
+  res.redirect("/admin/books");
 };
 
 exports.getBooks = (req, res, next) => {
@@ -28,4 +56,10 @@ exports.getBooks = (req, res, next) => {
       path: "/admin/books",
     });
   });
+};
+
+exports.postDeleteBook = (req, res, next) => {
+  const prodId = req.body.bookId;
+  Book.deleteById(prodId);
+  res.redirect("/admin/books");
 };

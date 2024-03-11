@@ -1,8 +1,1 @@
-[
-    {
-        "title": "A Book",
-        "imageUrl": "https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg",
-        "description": "This is an awesome book!",
-        "price": "19"
-    }
-]
+[{"id":"123456","title":"A Book","imageUrl":"https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg","description":"This is an awesome book!","price":"19.99"},{"title":"Harry Potter","imageUrl":"https://www.bloomsbury.com/media/0zanyruf/website-hub-slider-1200-x-960-exclusive-book.png","description":"Best Harry Potter Book","price":"29.99","id":"0.5872536554946397"}]
