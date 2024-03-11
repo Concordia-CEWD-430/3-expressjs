@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="card__actions">
                                     <a href="/books/<%= book.id %>" class="btn">Details</a>
-                                    <%- include("../includes/add-to-cart.ejs", {book}) %>
+                                    <%- include('../includes/add-to-cart.ejs', {book: book}) %>
                                 </div>
                             </article>
                             <% } %>
