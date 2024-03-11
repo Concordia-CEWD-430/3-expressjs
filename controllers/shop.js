@@ -1,4 +1,5 @@
 const Book = require("../models/book");
+const Cart = require("../models/cart");
 
 exports.getBooks = (req, res, next) => {
   Book.fetchAll((books) => {
@@ -40,7 +41,9 @@ exports.getCart = (req, res, next) => {
 
 exports.addToCart = (req, res, next) => {
   const bookId = req.body.bookId;
-  console.log(bookId);
+  Book.findById(bookId, (book) => {
+    Cart.addBook(bookId, book.price);
+  });
   res.redirect("/cart");
 };
 
