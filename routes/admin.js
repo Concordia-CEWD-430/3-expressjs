@@ -9,6 +9,9 @@ const router = express.Router();
 // /admin/add-book => GET
 router.get("/add-book", adminController.getAddBook);
 
+// /admin/edit-book => GET
+router.get("/edit-book/:bookId", adminController.getEditBook);
+
 // /admin/books => GET
 router.get("/books", adminController.getBooks);
 

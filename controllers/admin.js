@@ -1,12 +1,9 @@
 const Book = require("../models/book");
 
 exports.getAddBook = (req, res, next) => {
-  res.render("admin/add-book", {
+  res.render("admin/edit-book", {
     pageTitle: "Add Book",
     path: "/admin/add-book",
-    formsCSS: true,
-    bookCSS: true,
-    activeAddBook: true,
   });
 };
 
@@ -18,6 +15,15 @@ exports.postAddBook = (req, res, next) => {
   const book = new Book(title, imageUrl, description, price);
   book.save();
   res.redirect("/");
+};
+
+exports.getEditBook = (req, res, next) => {
+  console.log(req.query);
+  res.render("admin/edit-book", {
+    editing: true,
+    pageTitle: "Edit Book",
+    path: "/admin/edit-book",
+  });
 };
 
 exports.getBooks = (req, res, next) => {
