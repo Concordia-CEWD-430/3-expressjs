@@ -11,13 +11,14 @@ exports.getBooks = (req, res, next) => {
 };
 
 exports.getBook = (req, res, next) => {
-  const productId = req.params.id;
-  console.log(
-    Book.findById(productId, (product) => {
-      console.log(product);
-    })
-  );
-  res.redirect("/");
+  const bookId = req.params.id;
+  Book.findById(bookId, (book) => {
+    res.render("shop/book-detail", {
+      book,
+      path: "/books",
+      pageTitle: book.title,
+    });
+  });
 };
 
 exports.getIndex = (req, res, next) => {
