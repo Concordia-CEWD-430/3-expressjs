@@ -14,12 +14,6 @@ app.set("views", "views");
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 
-db.execute("SELECT * FROM books")
-  .then((result) => {
-    console.log(result);
-  })
-  .catch((err) => console.error(err));
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 

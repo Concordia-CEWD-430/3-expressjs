@@ -10,7 +10,14 @@ module.exports = class Book {
     this.price = price;
   }
 
-  save() {}
+  save() {
+    return db.execute("INSERT INTO books (title, price, description, imageUrl) VALUES (?, ?, ?, ?)", [
+      this.title,
+      this.price,
+      this.description,
+      this.imageUrl,
+    ]);
+  }
 
   static deleteById(id) {}
 

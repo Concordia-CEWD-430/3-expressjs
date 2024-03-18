@@ -14,8 +14,10 @@ exports.postAddBook = (req, res, next) => {
   const price = req.body.price;
   const description = req.body.description;
   const book = new Book(null, title, imageUrl, description, price);
-  book.save();
-  res.redirect("/");
+  book
+    .save()
+    .then(() => res.redirect("/"))
+    .catch((err) => console.log(err));
 };
 
 exports.getEditBook = (req, res, next) => {
