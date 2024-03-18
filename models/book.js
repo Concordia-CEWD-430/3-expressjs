@@ -19,7 +19,19 @@ module.exports = class Book {
     ]);
   }
 
-  static deleteById(id) {}
+  updateBookById() {
+    return db.execute("UPDATE books SET title = ?, price = ?, description = ?, imageUrl = ? WHERE id = ?", [
+      this.title,
+      this.price,
+      this.description,
+      this.imageUrl,
+      this.id,
+    ]);
+  }
+
+  static deleteById(id) {
+    return db.execute("DELETE FROM books WHERE books.id = ?", [id]);
+  }
 
   static fetchAll() {
     return db.execute("SELECT * FROM books");
