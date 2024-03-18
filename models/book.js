@@ -25,5 +25,7 @@ module.exports = class Book {
     return db.execute("SELECT * FROM books");
   }
 
-  static findById(id) {}
+  static findById(id) {
+    return db.execute("SELECT * FROM books WHERE books.id = ?", [id]);
+  }
 };

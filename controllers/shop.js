@@ -14,14 +14,15 @@ exports.getBooks = (req, res, next) => {
 };
 
 exports.getBook = (req, res, next) => {
-  const prodId = req.params.bookId;
-  Book.findById(prodId, (book) => {
-    res.render("shop/book-detail", {
-      book: book,
-      pageTitle: book.title,
-      path: "/books",
-    });
-  });
+  Book.findById(req.params.bookId)
+    .then(([rows]) => {
+      res.render("shop/book-detail", {
+        book: rows[0],
+        path: "/books",
+        pageTitle: rows[0].title,
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getIndex = (req, res, next) => {
