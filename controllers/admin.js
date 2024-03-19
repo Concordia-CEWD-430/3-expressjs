@@ -14,8 +14,10 @@ exports.postAddBook = (req, res, next) => {
   const price = req.body.price;
   const description = req.body.description;
   const book = new Book(null, title, imageUrl, description, price);
-  book.save();
-  res.redirect("/");
+  book
+    .save()
+    .then(() => res.redirect("/"))
+    .catch((err) => console.log(err));
 };
 
 exports.getEditBook = (req, res, next) => {
@@ -23,18 +25,16 @@ exports.getEditBook = (req, res, next) => {
   if (!editMode) {
     return res.redirect("/");
   }
-  const prodId = req.params.bookId;
-  Book.findById(prodId, (book) => {
-    if (!book) {
-      return res.redirect("/");
-    }
-    res.render("admin/edit-book", {
-      pageTitle: "Edit Book",
-      path: "/admin/edit-book",
-      editing: editMode,
-      book: book,
-    });
-  });
+  Book.findById(req.params.bookId)
+    .then(([rows]) => {
+      res.render("admin/edit-book", {
+        book: rows[0],
+        editing: editMode,
+        pageTitle: "Edit Book",
+        path: "/admin/edit-book",
+      });
+    })
+    .catch(() => console.log(err));
 };
 
 exports.postEditBook = (req, res, next) => {
@@ -44,22 +44,29 @@ exports.postEditBook = (req, res, next) => {
   const updatedImageUrl = req.body.imageUrl;
   const updatedDesc = req.body.description;
   const updatedBook = new Book(prodId, updatedTitle, updatedImageUrl, updatedDesc, updatedPrice);
-  updatedBook.save();
-  res.redirect("/admin/books");
+  updatedBook
+    .updateBookById()
+    .then(() => res.redirect("/admin/books"))
+    .catch((err) => console.log(err));
 };
 
 exports.getBooks = (req, res, next) => {
-  Book.fetchAll((books) => {
-    res.render("admin/books", {
-      prods: books,
-      pageTitle: "Admin Books",
-      path: "/admin/books",
-    });
-  });
+  Book.fetchAll()
+    .then(([rows, metaData]) => {
+      res.render("admin/books", {
+        prods: rows,
+        pageTitle: "Admin Books",
+        path: "/admin/books",
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.postDeleteBook = (req, res, next) => {
   const prodId = req.body.bookId;
-  Book.deleteById(prodId);
-  res.redirect("/admin/books");
+  Book.deleteById(prodId)
+    .then(() => {
+      res.redirect("/admin/books");
+    })
+    .catch((err) => console.log(err));
 };

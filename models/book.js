@@ -1,23 +1,5 @@
-const fs = require('fs');
-const path = require('path');
-
-const Cart = require('./cart');
-
-const p = path.join(
-  path.dirname(process.mainModule.filename),
-  'data',
-  'books.json'
-);
-
-const getBooksFromFile = cb => {
-  fs.readFile(p, (err, fileContent) => {
-    if (err) {
-      cb([]);
-    } else {
-      cb(JSON.parse(fileContent));
-    }
-  });
-};
+const db = require("../util/database");
+const Cart = require("./cart");
 
 module.exports = class Book {
   constructor(id, title, imageUrl, description, price) {
@@ -29,46 +11,33 @@ module.exports = class Book {
   }
 
   save() {
-    getBooksFromFile(books => {
-      if (this.id) {
-        const existingBookIndex = books.findIndex(
-          prod => prod.id === this.id
-        );
-        const updatedBooks = [...books];
-        updatedBooks[existingBookIndex] = this;
-        fs.writeFile(p, JSON.stringify(updatedBooks), err => {
-          console.log(err);
-        });
-      } else {
-        this.id = Math.random().toString();
-        books.push(this);
-        fs.writeFile(p, JSON.stringify(books), err => {
-          console.log(err);
-        });
-      }
-    });
+    return db.execute("INSERT INTO books (title, price, description, imageUrl) VALUES (?, ?, ?, ?)", [
+      this.title,
+      this.price,
+      this.description,
+      this.imageUrl,
+    ]);
+  }
+
+  updateBookById() {
+    return db.execute("UPDATE books SET title = ?, price = ?, description = ?, imageUrl = ? WHERE id = ?", [
+      this.title,
+      this.price,
+      this.description,
+      this.imageUrl,
+      this.id,
+    ]);
   }
 
   static deleteById(id) {
-    getBooksFromFile(books => {
-      const book = books.find(prod => prod.id === id);
-      const updatedBooks = books.filter(prod => prod.id !== id);
-      fs.writeFile(p, JSON.stringify(updatedBooks), err => {
-        if (!err) {
-          Cart.deleteBook(id, book.price);
-        }
-      });
-    });
+    return db.execute("DELETE FROM books WHERE books.id = ?", [id]);
   }
 
-  static fetchAll(cb) {
-    getBooksFromFile(cb);
+  static fetchAll() {
+    return db.execute("SELECT * FROM books");
   }
 
-  static findById(id, cb) {
-    getBooksFromFile(books => {
-      const book = books.find(p => p.id === id);
-      cb(book);
-    });
+  static findById(id) {
+    return db.execute("SELECT * FROM books WHERE books.id = ?", [id]);
   }
 };

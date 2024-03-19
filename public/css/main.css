@@ -167,6 +167,8 @@ form {
 
 .card__image img {
   width: 100%;
+  width: 320px;
+  height: 256px;
 }
 
 .card__actions {
